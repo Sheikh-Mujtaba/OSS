@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);
   const [isExists, setIsExists] = useState<boolean>(false);
+  const [showFaq ,setShowFaq] = useState <boolean>(false);
+
+  const handleFaq =()=>{
+    setShowFaq(!showFaq)
+  }
 
   useEffect(() => {
     // Check if session exists and get the user info
@@ -11,6 +17,7 @@ const Home: React.FC = () => {
       .then((response) => {
         if (response.status === 200) {
           setUserName(response.data.user.name);
+      
           setIsExists(true); // User is logged in
         } else {
           setIsExists(false); // No session
@@ -23,17 +30,34 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-[90vh] text-white">
-      <div className="h-[100%] flex justify-center items-center">
+    <>
+
+    <div className="h-[90vh] px-[10vw]" >
+      <div className="h-[100%] flex justify-start items-center">
+        
         <div>
           {isExists ? (
-            <h1 className="text-4xl capitalize">Welcome {userName}</h1>
+            <h1 className="text-4xl capitalize">Welcome {userName} </h1>
           ) : (
-            <h1 className='text-4xl capitalize'>Login to see and enter our discussion room</h1>
+            <div className='flex flex-col  items-start gap-[2rem]'>
+              <h1 className='text-5xl capitalize font-semibold font-mono text-start'>Strategize, customize, and enhance <br/> your grappling skills.</h1>
+              <Link to='/register'>
+              <button className="bg-[#ABC270] px-[2rem] py-[0.6rem] rounded text-white">
+                Register
+              </button>
+              </Link>
+            </div>
           )}
         </div>
+       
       </div>
     </div>
+
+
+
+
+
+    </>
   );
 };
 

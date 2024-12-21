@@ -6,17 +6,29 @@ import Navbar from './components/Navbar';
 import Login from './users/Login';
 import Register from './users/Register';
 import Home from './pages/Home';
+import Videos from './pages/Videos';
+
+
+// import Chat from './pages/Chat';
 
 function App() {
 
 
   return (
-    <div className="App bg-[#1B1833] ">
+    <div className="App bg-black text-white ">
+    {/* // <div className="App bg-white"> */}
+
       <Router>
         <Navbar/>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/home' element={<Home/>}/>
+        
+          {/* <Route path='/chat' element={<Chat/>}/> */}
+          <Route path='/videos' element={<Videos/>}/>
+         
+
+
 
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>

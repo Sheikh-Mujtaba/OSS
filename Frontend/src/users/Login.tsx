@@ -28,7 +28,7 @@ const Login : React.FC =()=>{
         <>
          <div className="px-[6vw] xl:px-[14vw] py-[4vh] h-[90vh]">
   <div className="h-[100%] flex justify-center items-center">
-    <div className="w-[100%] md:w-[50%] h-[70%] bg-white py-6 px-6 flex flex-col justify-center items-center gap-[2rem] rounded-xl">
+    <div className="w-[100%] md:w-[50%] h-[70%]  py-6 px-6 flex flex-col justify-center items-center gap-[2rem] rounded-xl border border-[#ABC270]">
       <h1 className=" text-4xl font-semibold mb-6">Login</h1>
       <form className="w-full max-w-sm space-y-4" onSubmit={handleSubmit} >
         
@@ -39,7 +39,7 @@ const Login : React.FC =()=>{
             type="email"
             id="email"
             name="email"
-            className="w-full mt-2 py-2 px-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-[#F29F58] border"
+            className="w-full mt-2 py-2 px-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-[#ABC270] border border-[#ABC270]"
             placeholder="Enter your email"
             required
 
@@ -55,7 +55,7 @@ const Login : React.FC =()=>{
             type="password"
             id="password"
             name="password"
-            className="w-full mt-2 py-2 px-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-[#F29F58] border"
+            className="w-full mt-2 py-2 px-3 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-[#ABC270] border border-[#ABC270]"
             placeholder="Enter your password"
             required
             onChange={ e=> setPassword (e.target.value)}
@@ -67,13 +67,13 @@ const Login : React.FC =()=>{
         <div className="flex justify-center">
           <button
             type="submit"
-            className="w-full py-2 text-white bg-[#F29F58]  font-semibold rounded-md hover:bg-[#F29F58] focus:outline-none focus:ring-2 focus:ring-white transition"
+            className="w-full py-2 text-white bg-[#ABC270] font-semibold rounded-md hover:bg-[#ABC270] focus:outline-none focus:ring-2 focus:ring-white transition"
           >
             Login
           </button>
         </div>
       </form>
-     <Link to='/register'> <p className="text-[#F29F58] underline">Create an account</p></Link>
+     <Link to='/register'> <p className="text-[#ABC270] underline">Create an account</p></Link>
     </div>
   </div>
 </div>

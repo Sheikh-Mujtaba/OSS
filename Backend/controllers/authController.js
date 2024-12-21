@@ -2,36 +2,61 @@ const db = require ('../config/db');
 
 const bcrypt = require('bcryptjs'); // Import bcryptjs
 
-exports.registerController = (req, res) => {
-  const sql = "INSERT INTO login (`name`, `email`, `password`) VALUES (?, ?, ?)";
+// exports.registerController = (req, res) => {
+//   const sql = "INSERT INTO login (`name`, `email`, `password`) VALUES (?, ?, ?)";
 
-  const { name, email, password } = req.body;
+//   const { name, email, password } = req.body;
 
 
  
+
+//   bcrypt.hash(password, 10, (err, hashedPassword) => {
+//     if (err) {
+//       return res.status(500).json({ message: 'Error hashing password' });
+//     }
+
+ 
+//     db.query(sql, [name, email, hashedPassword], (err, data) => {
+//       if (err) {
+//         console.error('Error querying the database:', err);
+//         return res.status(500).json({ message: 'Server error' });
+//       }
+
+   
+//       if (data.length === 0) {
+//         return res.status(401).json({ message: 'Not found' });
+//       }
+
+    
+//       return res.status(200).json({ message: 'Registered successfully' });
+//     });
+//   });
+// };
+
+exports.registerController = (req, res) => {
+  const sql = "INSERT INTO login (`name`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";
+
+  const { name, email, password } = req.body;
+
+  // Optionally, set role based on email or other conditions
+  const role = email === "muji@gmail.com" ? "admin" : "user"; // Example: make a specific email an admin
 
   bcrypt.hash(password, 10, (err, hashedPassword) => {
     if (err) {
       return res.status(500).json({ message: 'Error hashing password' });
     }
 
- 
-    db.query(sql, [name, email, hashedPassword], (err, data) => {
+    db.query(sql, [name, email, hashedPassword, role], (err, data) => {
       if (err) {
         console.error('Error querying the database:', err);
         return res.status(500).json({ message: 'Server error' });
       }
 
-   
-      if (data.length === 0) {
-        return res.status(401).json({ message: 'Not found' });
-      }
-
-    
       return res.status(200).json({ message: 'Registered successfully' });
     });
   });
 };
+
 
 exports.loginController = (req, res) => {
   const sql = 'SELECT * FROM login WHERE email = ?';
@@ -62,6 +87,7 @@ exports.loginController = (req, res) => {
         id: data[0].id,
         email: data[0].email,
         name: data[0].name, 
+        role: data[0].role,
         
       };
 

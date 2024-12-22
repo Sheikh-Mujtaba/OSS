@@ -6,7 +6,8 @@ import Navbar from './components/Navbar';
 import Login from './users/Login';
 import Register from './users/Register';
 import Home from './pages/Home';
-import Videos from './pages/Videos';
+import VideosList from './pages/VideosList';
+import VideosPlayer from './pages/VideosPlayer';
 
 
 // import Chat from './pages/Chat';
@@ -23,12 +24,9 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/home' element={<Home/>}/>
-        
           {/* <Route path='/chat' element={<Chat/>}/> */}
-          <Route path='/videos' element={<Videos/>}/>
-         
-
-
+          <Route path='/videos' element={<VideosList/>}/>
+          <Route path='/videos/:category/:id' element={<VideosPlayer />} />
 
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>

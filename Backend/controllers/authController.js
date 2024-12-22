@@ -2,36 +2,7 @@ const db = require ('../config/db');
 
 const bcrypt = require('bcryptjs'); // Import bcryptjs
 
-// exports.registerController = (req, res) => {
-//   const sql = "INSERT INTO login (`name`, `email`, `password`) VALUES (?, ?, ?)";
 
-//   const { name, email, password } = req.body;
-
-
- 
-
-//   bcrypt.hash(password, 10, (err, hashedPassword) => {
-//     if (err) {
-//       return res.status(500).json({ message: 'Error hashing password' });
-//     }
-
- 
-//     db.query(sql, [name, email, hashedPassword], (err, data) => {
-//       if (err) {
-//         console.error('Error querying the database:', err);
-//         return res.status(500).json({ message: 'Server error' });
-//       }
-
-   
-//       if (data.length === 0) {
-//         return res.status(401).json({ message: 'Not found' });
-//       }
-
-    
-//       return res.status(200).json({ message: 'Registered successfully' });
-//     });
-//   });
-// };
 
 exports.registerController = (req, res) => {
   const sql = "INSERT INTO login (`name`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";

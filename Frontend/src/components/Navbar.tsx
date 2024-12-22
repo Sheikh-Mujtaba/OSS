@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu */}
 
           {showMenu  && (
-          <div className="flex flex-col items-center gap-[2rem] lg:hidden border absolute bg-[#F29F58] top-[10%] left-[6%] p-[1.4rem] w-[90%]">
+          <div className="flex flex-col items-center gap-[2rem] lg:hidden border absolute bg-[#ABC270] top-[10%] left-[6%] p-[1.4rem] w-[90%]">
        
           <Link to='/videos'><p>Video Library</p></Link>
           {isLoggedIn ? (

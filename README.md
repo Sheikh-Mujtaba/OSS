@@ -1,2 +1,2 @@
 
-https://grappling070.netlify.app/home
+https://grappling070.netlify.app

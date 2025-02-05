@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useCheckSession from "../hooks/useCheckSession";
 
 
 interface UserData {
@@ -11,21 +12,21 @@ interface UserData {
 }
 const Settings : React.FC = () =>{
     const [user, setUser] = useState<UserData>();
-    const [isExists, setIsExists] = useState<boolean>(false);
+    const {isLoggedIn,setIsLoggedIn} = useCheckSession ();
 
     useEffect(() => {
       // Check if session exists and get the user info
       axios.get('http://localhost:8082/auth/check-session', { withCredentials: true })
         .then((response) => {
           if (response.status === 200) {
-            setIsExists(true); // User is logged in
+            setIsLoggedIn(true); // User is logged in
           } else {
-            setIsExists(false); // No session
+            setIsLoggedIn(false); // No session
           }
         })
         .catch((err) => {
           console.log('No session or error fetching session', err);
-          setIsExists(false); // If error occurs, assume user is not logged in
+          setIsLoggedIn(false); // If error occurs, assume user is not logged in
         });
     }, []);
 
@@ -49,7 +50,7 @@ const Settings : React.FC = () =>{
         
           <div className="h-[100%] flex flex-col justify-center items-center gap-[2rem]">
 
-         {isExists ? (
+         {isLoggedIn ? (
           <>
            <div className="flex flex-col gap-[2rem] items-start border px-[2rem] py-[2rem]">
           <p className="text-2xl capitalize">Name : {user?.name}</p>

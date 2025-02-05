@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import useCheckSession from "../hooks/useCheckSession";
 
 interface UserData {
   id: number;
@@ -15,7 +16,7 @@ const Update: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isExists, setIsExists] = useState<boolean>(false);
+  const {isLoggedIn,setIsLoggedIn} = useCheckSession ();
 
   
   useEffect(() => {
@@ -23,14 +24,14 @@ const Update: React.FC = () => {
     axios.get('http://localhost:8082/auth/check-session', { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
-          setIsExists(true); // User is logged in
+          setIsLoggedIn(true); // User is logged in
         } else {
-          setIsExists(false); // No session
+          setIsLoggedIn(false); // No session
         }
       })
       .catch((err) => {
         console.log('No session or error fetching session', err);
-        setIsExists(false); // If error occurs, assume user is not logged in
+        setIsLoggedIn(false); // If error occurs, assume user is not logged in
       });
   }, []);
 
@@ -71,7 +72,7 @@ const Update: React.FC = () => {
       <div className="h-[100%] flex justify-center items-center">
         <div className="w-[100%] md:w-[50%] h-[75%] py-6 px-6 flex flex-col justify-center items-center gap-[2rem] rounded-xl focus:ring-[#ABC270] border border-[#ABC270]">
           <h1 className=" text-4xl font-semibold mb-6">Update Profile</h1>
-         {isExists  ? (
+         {isLoggedIn  ? (
            <form className="w-full max-w-sm space-y-4" onSubmit={handleSubmit}>
            <div>
              <label htmlFor="name" className=" text-lg">

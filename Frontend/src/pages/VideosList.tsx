@@ -3,25 +3,14 @@ import { storage } from '../storage/firebase'; // Import the Firebase storage
 import { ref, listAll, getDownloadURL } from 'firebase/storage'; 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import useCheckSession from '../hooks/useCheckSession';
 
 const VideosList: React.FC = () => {
   const [videoUrls, setVideoUrls] = useState<string[]>([]);
   const [category ,setCategory]=useState <string>('all')
-  const [sessionExists, setSessionExists] = useState<boolean>(false);
+  const {isLoggedIn,setIsLoggedIn} = useCheckSession ();
 
-  useEffect(() => {
-    // Check if the user session exists
-    axios
-      .get('http://localhost:8082/auth/check-session', { withCredentials: true })
-      .then((res) => {
-        if (res.status === 200) {
-          setSessionExists(true);
-        }
-      })
-      .catch((err) => {
-        setSessionExists(false);
-      });
-  }, []);
+ 
 
   useEffect(() => {
     const fetchVideoUrls = async () => {
@@ -67,7 +56,7 @@ const VideosList: React.FC = () => {
     <>
    <div className=' px-[4vw] md:px-[10vw] h-auto'>
 
-    {sessionExists ? (
+    {isLoggedIn ? (
     <div className='py-[2rem] flex gap-[2rem] mt-[2rem]'>
       <button className={`px-3 py-2 bg-[#ABC270] text-white rounded ${category === 'all' ? ("bg-gray-500") : ("")}`} onClick={()=>setCategory('all') } >All</button>
       <button className={`px-3 py-2 bg-[#ABC270] text-white rounded ${category === 'beginner' ? ("bg-gray-500") : ("")}`} onClick={() => setCategory('beginner')}>Beginner</button>
@@ -81,7 +70,7 @@ const VideosList: React.FC = () => {
     {videoUrls.map ((url,index) => (
       <div key={index}>
 
-       {sessionExists ? (
+       {isLoggedIn ? (
          <Link to={`/videos/${category}/${index}`} className=''>
          <video src={url} className='border border-[#ABC270] rounded ' />
          </Link>

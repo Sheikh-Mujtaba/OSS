@@ -3,25 +3,14 @@ import { useParams } from 'react-router-dom';
 import { storage } from '../storage/firebase';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
 import axios from 'axios';
+import useCheckSession from '../hooks/useCheckSession';
 
 const VideoPlayer: React.FC = () => {
   const { id, category } = useParams<{ id: string; category: 'beginner' | 'advanced' | 'all' }>(); // category can now be 'all'
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [sessionExists, setSessionExists] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Check if the user session exists
-    axios
-      .get('http://localhost:8082/auth/check-session', { withCredentials: true })
-      .then((res) => {
-        if (res.status === 200) {
-          setSessionExists(true);
-        }
-      })
-      .catch((err) => {
-        setSessionExists(false);
-      });
-  }, []);
+
+  const {isLoggedIn,setIsLoggedIn} = useCheckSession ();
 
   useEffect(() => {
     const fetchVideoUrl = async () => {
@@ -63,10 +52,10 @@ const VideoPlayer: React.FC = () => {
       }
     };
 
-    if (sessionExists && id && category) {
+    if (isLoggedIn && id && category) {
       fetchVideoUrl();
     }
-  }, [id, category, sessionExists]);
+  }, [id, category, isLoggedIn]);
 
   if (!videoUrl) {
     return <div className='h-[100vh] flex justify-center items-center text-4xl'>Login to view the video </div>;

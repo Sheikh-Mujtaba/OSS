@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import useCheckSession from "../hooks/useCheckSession";
 
 
 interface Msg{
@@ -9,27 +10,17 @@ interface Msg{
 }
 
 const Chat : React.FC =()=>{
-  const [sessionExists,setSessionExists]=useState<boolean>(false);
+
   const [msgList,setMsgList] = useState<Msg[]>([]);
   const [currentMsg,setCurrentMsg] = useState<string>('');
   // const [userName, setUserName] = useState<string | null>(null);
 
+  const {isLoggedIn,setIsLoggedIn} = useCheckSession ();
+
   const socket = io ('http://localhost:8082');
 
 
-  useEffect(()=>{
-    axios.get('http://localhost:8082/auth/check-session', { withCredentials: true })
-    .then ( res => {
-      // setUserName(res.data.user.name);
-      if (res.status === 200 ){
-        return setSessionExists(true)
-        
-      }
-    }) 
-    .catch (err => {
-      setSessionExists (false);
-    })
-  },[])
+
  
   useEffect(() => {
     socket.on ('receive_message' , (data : string ) => {
@@ -62,7 +53,7 @@ const Chat : React.FC =()=>{
             <div className="h-[100%] flex flex-col gap-[1rem] justify-center items-center " >
         
               
-               {sessionExists ? (
+               {isLoggedIn ? (
                  <div className="w-[80%] lg:w-[35%] h-[70%] bg-white border border-[#F29F58] rounded-lg px-2 py-4 flex  flex-col justify-end  gap-[2rem] ">
                       <h1 className="text-xl px-3 py-1 text-white bg-[#F29F58] rounded ">Topic : Kimura</h1>
 

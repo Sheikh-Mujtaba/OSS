@@ -79,6 +79,62 @@ exports.loginController = (req, res) => {
   };
 
 
+
+  exports.updateController = (req, res) => {
+    const { email, name, password } = req.body; // Fields to update
+    const userId = req.session.user?.id; // Assume the session stores the user's ID
+  
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: Please log in.' });
+    }
+  
+    // Ensure there is data to update
+    if (!email && !name && !password) {
+      return res.status(400).json({ message: 'No data provided to update.' });
+    }
+  
+    // Build the SQL query dynamically
+    const updates = [];
+    const values = [];
+  
+    if (email) {
+      updates.push('email = ?');
+      values.push(email);
+    }
+    if (name) {
+      updates.push('name = ?');
+      values.push(name);
+    }
+    if (password) {
+      const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
+      updates.push('password = ?');
+      values.push(hashedPassword);
+    }
+  
+    // Add userId to the values array (for the WHERE clause)
+    values.push(userId);
+  
+    // Construct the final SQL query
+    const sql = `UPDATE login SET ${updates.join(', ')} WHERE id = ?`;
+  
+    // Execute the query
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error updating the user:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      res.status(200).json({ message: 'Profile updated successfully.' });
+    });
+  };
+
+
+  
+
   
   exports.logoutController = (req, res) => {
     req.session.destroy((err) => {

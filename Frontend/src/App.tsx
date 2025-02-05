@@ -8,6 +8,8 @@ import Register from './users/Register';
 import Home from './pages/Home';
 import VideosList from './pages/VideosList';
 import VideosPlayer from './pages/VideosPlayer';
+import Settings from './users/Settings';
+import Update from './users/Update';
 
 
 // import Chat from './pages/Chat';
@@ -30,6 +32,10 @@ function App() {
 
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/update/:id' element={<Update/>}/>
+
+          <Route path='/settings' element={<Settings/>}/>
+
 
         </Routes>
       </Router>
